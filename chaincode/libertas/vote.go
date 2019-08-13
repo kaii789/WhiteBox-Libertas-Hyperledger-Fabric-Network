@@ -23,10 +23,9 @@ type Vote struct {
 	UpdatedAt    time.Time
 }
 
-// Ballot stuff
-// type Ballot struct {
-// 	VoteList []Vote
-// }
+type Vote interface {
+	CastVote() pb.Response
+}
 
 //----------------------------------------------Query---------------------------------------------------
 func (t *Libertas) ListBallotBoxesByCampaignID(stub shim.ChaincodeStubInterface, args []string) pb.Response {
@@ -57,7 +56,7 @@ func (t *Libertas) ListBallotBoxesByCampaignID(stub shim.ChaincodeStubInterface,
 // campaign has ballot struct >> contains a list of voters
 
 // Create
-func (t *Libertas) CreateVote(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+func (t *Libertas) CastVote(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	err := _createVoteChecks(stub, args)
 	if err != nil {
 		return shim.Error(err.Error())
