@@ -2,8 +2,6 @@
 #
 # Copyright IBM Corp All Rights Reserved
 #
-# Modifications Copyright 2019 Sipher Inc.
-#
 # SPDX-License-Identifier: Apache-2.0
 #
 # This shell script sets up the network based on the specfications in configtx.yaml and crypto-config.yaml 

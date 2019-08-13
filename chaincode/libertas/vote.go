@@ -1,6 +1,4 @@
 /*
- * Copyright 2019 Sipher Inc.
- *
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -31,7 +29,7 @@ type Vote struct {
 // }
 
 //----------------------------------------------Query---------------------------------------------------
-func (t *Libertas) ListBallotByCampaignID(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+func (t *Libertas) ListBallotBoxesByCampaignID(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	// check args
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1.")

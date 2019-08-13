@@ -1,6 +1,4 @@
 /*
- * Copyright 2019 Sipher Inc.
- *
  * SPDX-License-Identifier: Apache-2.0
  *
  * This module provides tools for establishing a secure gateway for signing transactions offline.
@@ -10,13 +8,13 @@ module.exports = { getEndorsementPlanPeers, getChannel };
 
 const Client = require('fabric-client');
 
- /**
-  * Returns a list of names of peers from the first option of discovery's endorsement plan.
-  * 
-  * @param {Client.channel} channel Channel of endoresment plans to get.
-  */
+/**
+ * Returns a list of names of peers from the first option of discovery's endorsement plan.
+ * 
+ * @param {Client.channel} channel Channel of endoresment plans to get.
+ */
 async function getEndorsementPlanPeers(channel, contractName) {
-    const discoveryResults = await channel.getDiscoveryResults({name: contractName});
+    const discoveryResults = await channel.getDiscoveryResults({ name: contractName });
     const endoresmentGroups = discoveryResults.endorsement_plans[0].groups;
 
     var discoveryResultsPeersList = [];
@@ -53,5 +51,5 @@ async function getChannel(connectionProfilePath, channelName, adminCertificate, 
     await channel.initialize({ discover: true, asLocalhost: true });
 
     return channel;
-    
+
 }

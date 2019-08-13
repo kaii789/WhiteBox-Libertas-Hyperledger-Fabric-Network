@@ -1,5 +1,3 @@
-# Copyright 2019 Sipher Inc.
-#
 # SPDX-License-Identifier: Apache-2.0
 
 # This shell script assumes that the required docker images have been installed

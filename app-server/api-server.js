@@ -1,6 +1,4 @@
 /*
- * Copyright 2019 Sipher Inc.
- *
  * SPDX-License-Identifier: Apache-2.0
  *
  * API server for making calls to chaincode on behalf of client app.
@@ -16,7 +14,7 @@ var server = require('http').Server(router);
 var io = require('socket.io')(server);
 const submitEvaluateModule = require('./submitEvaluateTransaction');
 const offlineSigningGatewayModule = require('./offlineSigningGateway');
-const { FileSystemWallet } = require('fabric-network')
+const { FileSystemWallet } = require('fabric-network');
 
 // Environment variables
 const chaincodeID = 'libertas';
@@ -24,7 +22,7 @@ const channelID = 'test';
 const connectionProfilePath = path.resolve(__dirname, '..', 'libertas-dev-network', 'connection-sipher.json');
 const walletPath = path.join(__dirname, 'tests', 'wallet');
 
-// JSON parser 
+// JSON parser
 router.use(express.urlencoded({
     extended: false
 })).use(express.json());

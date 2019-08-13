@@ -1,6 +1,4 @@
 /*
- * Copyright 2019 Sipher Inc.
- *
  * SPDX-License-Identifier: Apache-2.0
  * 
  * This module provides necessary functions for submitting transactions through offline signing.
@@ -69,7 +67,7 @@ async function submitSignedTransactionProposal(channel, contractName, signedTran
                 throw proposalResponses[i];
             }
         }
-        
+
         return proposalResponses;
 
     } catch (error) {
@@ -113,7 +111,7 @@ async function getCommitProposalDigest(channel, transactionProposalDigest, trans
  * @return {Response}
  */
 async function submitSignedCommitProposal(channel, signedCommitProposal, transactionProposalResponses, transactionProposalDigest) {
-    
+
     try {
         const commitReq = {
             transactionProposalResponses,

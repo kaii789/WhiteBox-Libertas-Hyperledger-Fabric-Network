@@ -1,6 +1,4 @@
 /*
- * Copyright 2019 Sipher Inc.
- *
  * SPDX-License-Identifier: Apache-2.0
  *
  * API for app to interact with the Hyperledger Network.
@@ -33,7 +31,7 @@ module.exports = {
     createCampaign, queryCampaignByID, queryCampaignByInstitutionUsername, editCampaignByID, deleteCampaignByID,
     createVoterGroup, queryVoterGroupsByID, editVoterGroupByID, deleteVoterGroupByID,
     createVoter, listVotersByVoterGroupID, editVoterByID, deleteVoterByID,
-    createVote, listBallotByCampaignID
+    createVote, listBallotBoxesByCampaignID
 }
 
 //-----------------------------ACCOUNT FUNCTIONS--------------------------------
@@ -325,11 +323,11 @@ async function createVote(voterID, campaignID, voterGroupID, userID) {
     }
 }
 
-async function listBallotByCampaignID(campaignID) {
+async function listBallotBoxesByCampaignID(campaignID) {
     try {
         // Prepare transaction proposal
         const transactionProposal = {
-            fcn: 'ListBallotByCampaignID',
+            fcn: 'ListBallotBoxesByCampaignID',
             args: [campaignID]
         }
         let response = await evaluateTransactionUnsigned(transactionProposal);

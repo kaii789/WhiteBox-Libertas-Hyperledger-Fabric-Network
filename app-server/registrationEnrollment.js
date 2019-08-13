@@ -1,6 +1,4 @@
 /*
- * Modification Copyright 2019 Sipher Inc
- *
  * SPDX-License-Identifier: Apache-2.0
  * 
  * This module contains frontend JavaScript calls for registering/enrolling users and creating affiliations.
@@ -146,8 +144,8 @@ async function registerUser(connectionProfilePath, walletPath, affiliation, enro
 
         // Register the user.
         const attributes = [{ name: 'name', value: name, ecert: true },
-            { name: 'accountType', value: accountType, ecert: true },
-            { name: 'id', value: enrollmentID, ecert: true }]; // Create attributes
+        { name: 'accountType', value: accountType, ecert: true },
+        { name: 'id', value: enrollmentID, ecert: true }]; // Create attributes
         const secret = await ca.register({
             affiliation: affiliation, enrollmentID: enrollmentID,
             role: role, attrs: attributes

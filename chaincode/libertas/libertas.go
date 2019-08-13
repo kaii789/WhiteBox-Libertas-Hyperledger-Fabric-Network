@@ -1,6 +1,4 @@
 /*
- * Copyright 2019 Sipher Inc.
- *
  * SPDX-License-Identifier: Apache-2.0
  *
  * TODO: provide better documentation.
@@ -128,7 +126,7 @@ func (t *Libertas) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	case "CreateVote": // Vote-related functions
 		return t.CreateVote(stub, args)
 	case "ListBallotByCampaignID":
-		return t.ListBallotByCampaignID(stub, args)
+		return t.ListBallotBoxesByCampaignID(stub, args)
 		// case "EditVote":
 		// 	return t.EditVoteByID(stub, args)
 
