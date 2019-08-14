@@ -11,6 +11,14 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
+func CastVote(stub shim.ChaincodeStubInterface, args []string) {
+
+	// votingSystem :=           get voting system based on campaign id
+
+	// todo a bunch of switch statements follow
+
+}
+
 // BallotBox is an interface for a BallotBox-ish struct.
 type BallotBox interface {
 	castVote(Vote)
@@ -24,12 +32,10 @@ type BallotBoxPrototype struct {
 	box []Vote
 }
 
-func (t BallotBoxPrototype) castVoteChecks(stub shim.ChaincodeStubInterface, args []string) error {
-	var err error
+// castVoteChecks does preliminary checks to ensure that the vote is allowed to be casted by caller.
+func (t BallotBoxPrototype) castVoteChecks(stub shim.ChaincodeStubInterface, voterID string, campaignID string, voterGroupID string) error {
 
-	if len(args) != 3 {
-		return errors.New("incorrect number of arguments, expecting 3")
-	}
+	var err error
 
 	// check for correct account, only personal accounts can vote
 	accountTypeOK, err := CheckCertAttribute(stub, "accountType", "Personal")
@@ -37,12 +43,12 @@ func (t BallotBoxPrototype) castVoteChecks(stub shim.ChaincodeStubInterface, arg
 		return errors.New(err.Error())
 	}
 
-	err = t._checkVoterIDUnique(stub, args)
+	err = t._checkVoterHasVoted(stub, voterID, campaignID)
 	if err != nil {
 		return err
 	}
 
-	err = t._checkValidVoter(stub, args)
+	err = t._checkValidVoter(stub, voterID, voterGroupID)
 	if err != nil {
 		return err
 	}
@@ -50,9 +56,9 @@ func (t BallotBoxPrototype) castVoteChecks(stub shim.ChaincodeStubInterface, arg
 	return nil
 }
 
-func (t BallotBoxPrototype) _checkVoterIDUnique(stub shim.ChaincodeStubInterface, args []string) error {
-	voterID := args[0]
-	campaignID := args[1]
+// _checkVoterHasVoted checks that voterID has not already casted a vote in campaign campaignID.
+func (t BallotBoxPrototype) _checkVoterHasVoted(stub shim.ChaincodeStubInterface, voterID string, campaignID string) error {
+
 	campaignsListBytes, err := stub.GetState("Campaigns List")
 	if err != nil {
 		return err
@@ -83,10 +89,14 @@ func (t BallotBoxPrototype) getVoterIDExists(voterID string, campaign Campaign) 
 }
 
 // checkValidVoter checks that voterGroupID is valid and voter voterID is part of voter group voterGroupID
+<<<<<<< HEAD
 func (t BallotBoxPrototype) _checkValidVoter(stub shim.ChaincodeStubInterface, args []string) error {
 	voterID := args[0]
 	// campaignID := args[1]
 	voterGroupID := args[2]
+=======
+func (t BallotBoxPrototype) _checkValidVoter(stub shim.ChaincodeStubInterface, voterID string, voterGroupID string) error {
+>>>>>>> 6dc93cb009f5bbe4960e177bf9d0d41ef18a5a24
 
 	// TODO: add check that voter group is part of campaign
 	// campaignsList, err := _getCampaignsList(stub)
@@ -117,6 +127,7 @@ func (t BallotBoxPrototype) _checkValidVoter(stub shim.ChaincodeStubInterface, a
 	return nil
 }
 
+// _isVoterBelongVoterGroup returns whether voterID belongs in voterGroup
 func (t BallotBoxPrototype) _isVoterBelongVoterGroup(voterID string, voterGroup VoterGroup) error {
 	for _, voter := range voterGroup.Voters {
 		if voter.ID == voterID {
@@ -127,6 +138,7 @@ func (t BallotBoxPrototype) _isVoterBelongVoterGroup(voterID string, voterGroup 
 	return errors.New("Voter with ID: " + voterID + " does not belong to voter group with ID: " + voterGroup.ID)
 }
 
+// getBox returns the ballotbox
 func (t BallotBoxPrototype) getBox() []Vote {
 	return t.box
 }
