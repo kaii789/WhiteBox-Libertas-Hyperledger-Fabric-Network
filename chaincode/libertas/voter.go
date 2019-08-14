@@ -36,7 +36,7 @@ func (t *Libertas) ListVotersByVoterGroupID(stub shim.ChaincodeStubInterface, ar
 	}
 	voterGroupID := args[0]
 
-	voterGroupsList, err := _getVoterGroupsList(stub)
+	voterGroupsList, err := getVoterGroupsList(stub)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
@@ -92,7 +92,7 @@ func _createVoterChecks(stub shim.ChaincodeStubInterface, args []string) error {
 
 	// check if voter already exists in voter group
 	voterGroupID := args[2]
-	voterGroupsList, err := _getVoterGroupsList(stub)
+	voterGroupsList, err := getVoterGroupsList(stub)
 	if err != nil {
 		return err
 	}
@@ -112,7 +112,7 @@ func _createVoterChecks(stub shim.ChaincodeStubInterface, args []string) error {
 }
 
 func _checkValidPersonalAccountID(stub shim.ChaincodeStubInterface, personalAccountID string) error {
-	accountsList, err := _getAccountsList(stub)
+	accountsList, err := getAccountsList(stub)
 	if err != nil {
 		return err
 	}
@@ -128,7 +128,7 @@ func _checkValidPersonalAccountID(stub shim.ChaincodeStubInterface, personalAcco
 
 func _updateLedgerVoterList(stub shim.ChaincodeStubInterface, voterGroupID string, newVoter Voter) error {
 	// get the voter group
-	voterGroupsList, err := _getVoterGroupsList(stub)
+	voterGroupsList, err := getVoterGroupsList(stub)
 	if err != nil {
 		return err
 	}
@@ -183,7 +183,7 @@ func (t *Libertas) EditVoterByID(stub shim.ChaincodeStubInterface, args []string
 
 	voterID := args[0]
 	voterGroupID := args[1]
-	voterGroupsList, err := _getVoterGroupsList(stub)
+	voterGroupsList, err := getVoterGroupsList(stub)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
@@ -245,7 +245,7 @@ func (t *Libertas) DeleteVoterByID(stub shim.ChaincodeStubInterface, args []stri
 
 	voterID := args[0]
 	voterGroupID := args[1]
-	voterGroupsList, err := _getVoterGroupsList(stub)
+	voterGroupsList, err := getVoterGroupsList(stub)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
