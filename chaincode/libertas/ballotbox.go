@@ -82,7 +82,7 @@ func (t BallotBoxPrototype) getVoterIDExists(voterID string, campaign Campaign) 
 	return false
 }
 
-// checkValidVoter checks that voterGroupID is valid and voter voterID is part of voter group voterGroupID 
+// checkValidVoter checks that voterGroupID is valid and voter voterID is part of voter group voterGroupID
 func (t BallotBoxPrototype) _checkValidVoter(stub shim.ChaincodeStubInterface, args []string) error {
 	voterID := args[0]
 	// campaignID := args[1]
@@ -98,7 +98,7 @@ func (t BallotBoxPrototype) _checkValidVoter(stub shim.ChaincodeStubInterface, a
 	// 	return nil
 	// }
 
-	voterGroupsList, err := _getVoterGroupsList(stub)
+	voterGroupsList, err := getVoterGroupsList(stub)
 	if err != nil {
 		return err
 	}

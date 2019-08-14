@@ -71,6 +71,59 @@ func queryAccountExistsByID(id string, accounts []Account) bool {
 	return false
 }
 
+func queryCampaignByID(campaignID string, campaigns []Campaign) (Campaign, error) {
+	for _, campaign := range campaigns {
+		if campaign.ID == campaignID {
+			return campaign, nil
+		}
+	}
+
+	return Campaign{}, errors.New("The campaign with ID: " + campaignID + " does not exist")
+}
+
+// queryByVoterGroupsID queries the VoterGroups array for id and returns whether it exists.
+func queryVoterGroupsByID(id string, voterGroups []VoterGroup) (VoterGroup, error) {
+	for _, v := range voterGroups {
+		if v.ID == id {
+			return v, nil
+		}
+	}
+
+	return VoterGroup{}, errors.New("Voter Group with id: " + id + " does not exist.")
+}
+
+func queryVoterGroupsByIDExists(id string, voterGroups []VoterGroup) bool {
+	for _, v := range voterGroups {
+		if v.ID == id {
+			return true
+		}
+	}
+
+	return false
+}
+
+func queryVoterGroupPtrByID(id string, voterGroups []VoterGroup) (*VoterGroup, error) {
+	for k := range voterGroups {
+		voterGroupPtr := &voterGroups[k]
+		if voterGroupPtr.ID == id {
+			return voterGroupPtr, nil
+		}
+	}
+
+	return &VoterGroup{}, errors.New("Voter Group with id: " + id + " does not exist.")
+}
+
+func queryCampaignPtrByID(campaignID string, campaigns []Campaign) (*Campaign, error) {
+	for k := range campaigns {
+		campaignPtr := &campaigns[k]
+		if campaignPtr.ID == campaignID {
+			return campaignPtr, nil
+		}
+	}
+
+	return &Campaign{}, errors.New("Campaign with id: " + campaignID + " does not exist.")
+}
+
 //----------------------------------------------Identity---------------------------------------------------
 // CheckCertAttribute checks whether parameter matches with the caller's certificates attributes.
 // Returns true if attribute matches.

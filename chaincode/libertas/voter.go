@@ -132,7 +132,7 @@ func _updateLedgerVoterList(stub shim.ChaincodeStubInterface, voterGroupID strin
 	if err != nil {
 		return err
 	}
-	voterGroupPtr, err := _getVoterGroupPointerByID(voterGroupID, voterGroupsList.VoterGroups)
+	voterGroupPtr, err := queryVoterGroupPtrByID(voterGroupID, voterGroupsList.VoterGroups)
 	if err != nil {
 		return err
 	}
@@ -150,17 +150,6 @@ func _updateLedgerVoterList(stub shim.ChaincodeStubInterface, voterGroupID strin
 	}
 
 	return nil
-}
-
-func _getVoterGroupPointerByID(id string, voterGroups []VoterGroup) (*VoterGroup, error) {
-	for k := range voterGroups {
-		voterGroupPtr := &voterGroups[k]
-		if voterGroupPtr.ID == id {
-			return voterGroupPtr, nil
-		}
-	}
-
-	return &VoterGroup{}, errors.New("Voter Group with id: " + id + " does not exist.")
 }
 
 func _getNewVoter(stub shim.ChaincodeStubInterface, args []string) Voter {
@@ -187,7 +176,7 @@ func (t *Libertas) EditVoterByID(stub shim.ChaincodeStubInterface, args []string
 	if err != nil {
 		return shim.Error(err.Error())
 	}
-	voterGroup, err := _getVoterGroupPointerByID(voterGroupID, voterGroupsList.VoterGroups)
+	voterGroup, err := queryVoterGroupPtrByID(voterGroupID, voterGroupsList.VoterGroups)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
@@ -250,7 +239,7 @@ func (t *Libertas) DeleteVoterByID(stub shim.ChaincodeStubInterface, args []stri
 		return shim.Error(err.Error())
 	}
 
-	voterGroup, err := _getVoterGroupPointerByID(voterGroupID, voterGroupsList.VoterGroups)
+	voterGroup, err := queryVoterGroupPtrByID(voterGroupID, voterGroupsList.VoterGroups)
 	if err != nil {
 		return shim.Error(err.Error())
 	}

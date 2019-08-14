@@ -38,7 +38,9 @@ func (t *Libertas) CreateVoterGroup(stub shim.ChaincodeStubInterface, args []str
 	}
 
 	//  create VoterGroup and add it to list
-	newVoterGroup, err := _getVoterGroup(stub, args)
+	id := args[0]
+	name := args[1]
+	newVoterGroup, err := _getVoterGroup(stub, id, name)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
@@ -94,8 +96,7 @@ func _createVoterGroupChecks(stub shim.ChaincodeStubInterface, args []string) er
 	return nil
 }
 
-func _getVoterGroup(stub shim.ChaincodeStubInterface, args []string) (VoterGroup, error) {
-	var id, name, ownerID string
+func _getVoterGroup(stub shim.ChaincodeStubInterface, id string, name string) (VoterGroup, error) {
 	var voters []Voter
 
 	// Get owner's ID
@@ -104,8 +105,6 @@ func _getVoterGroup(stub shim.ChaincodeStubInterface, args []string) (VoterGroup
 		return VoterGroup{}, err
 	}
 
-	id = args[0]
-	name = args[1]
 	transactionTimeProtobuf, _ := stub.GetTxTimestamp()
 	// Convert protobuf timestamp to Time data structure
 	transactionTime := time.Unix(transactionTimeProtobuf.Seconds, int64(transactionTimeProtobuf.Nanos))
@@ -143,27 +142,6 @@ func (t *Libertas) QueryVoterGroupsByID(stub shim.ChaincodeStubInterface, args [
 
 }
 
-// queryByVoterGroupsID queries the VoterGroups array for id and returns whether it exists.
-func queryVoterGroupsByID(id string, voterGroups []VoterGroup) (VoterGroup, error) {
-	for _, v := range voterGroups {
-		if v.ID == id {
-			return v, nil
-		}
-	}
-
-	return VoterGroup{}, errors.New("Voter Group with id: " + id + " does not exist.")
-}
-
-func queryVoterGroupsByIDExists(id string, voterGroups []VoterGroup) bool {
-	for _, v := range voterGroups {
-		if v.ID == id {
-			return true
-		}
-	}
-
-	return false
-}
-
 //----------------------------------------------Edit--------------------------------------------------
 
 func (t *Libertas) EditVoterGroupByID(stub shim.ChaincodeStubInterface, args []string) pb.Response {
@@ -176,7 +154,7 @@ func (t *Libertas) EditVoterGroupByID(stub shim.ChaincodeStubInterface, args []s
 	if err != nil {
 		return shim.Error(err.Error())
 	}
-	voterGroup, err := _getVoterGroupPointerByID(voterGroupID, voterGroupsList.VoterGroups)
+	voterGroup, err := queryVoterGroupPtrByID(voterGroupID, voterGroupsList.VoterGroups)
 	if err != nil {
 		return shim.Error(err.Error())
 	}

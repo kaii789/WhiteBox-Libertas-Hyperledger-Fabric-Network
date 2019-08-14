@@ -112,7 +112,7 @@ func _getNewCampaign(stub shim.ChaincodeStubInterface, args []string) (Campaign,
 	}
 
 	// Create an empty slice of VoterGroups
-	campaignVoterGroups = make([]VoterGroup, 0)
+	// campaignVoterGroups = BallotBoxPrototype{}
 	campaignBallotBox := make([]Vote, 0)
 	newCampaign := Campaign{ownerID, id, name, campaignType, campaignBallotBox, start, end, transactionTime,
 		transactionTime, campaignVoterGroups}
@@ -209,23 +209,13 @@ func (t *Libertas) QueryCampaignByID(stub shim.ChaincodeStubInterface, args []st
 	return shim.Success(campaignBytes)
 }
 
-func queryCampaignByID(campaignID string, campaigns []Campaign) (Campaign, error) {
-	for _, campaign := range campaigns {
-		if campaign.ID == campaignID {
-			return campaign, nil
-		}
-	}
-
-	return Campaign{}, errors.New("The campaign with ID: " + campaignID + " does not exist")
-}
-
 func (t *Libertas) QueryCampaignByInstitutionUsername(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1.")
 	}
 
 	// Get list of campaigns from the world state.
-	campaignsList, err := _getCampaignsList(stub)
+	campaignsList, err := getCampaignsList(stub)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
@@ -250,11 +240,11 @@ func (t *Libertas) EditCampaignByID(stub shim.ChaincodeStubInterface, args []str
 	}
 
 	campaignID := args[0]
-	campaignsList, err := _getCampaignsList(stub)
+	campaignsList, err := getCampaignsList(stub)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
-	campaign, err := _queryCampaignPtrByID(campaignID, &campaignsList)
+	campaign, err := queryCampaignPtrByID(campaignID, campaignsList.Campaigns)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
@@ -311,7 +301,7 @@ func (t *Libertas) DeleteCampaignByID(stub shim.ChaincodeStubInterface, args []s
 	}
 
 	campaignID := args[0]
-	campaignsList, err := _getCampaignsList(stub)
+	campaignsList, err := getCampaignsList(stub)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
