@@ -12,7 +12,7 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
-func _getAccountsList(stub shim.ChaincodeStubInterface) (AccountsList, error) {
+func getAccountsList(stub shim.ChaincodeStubInterface) (AccountsList, error) {
 	accountsListBytes, err := stub.GetState("Accounts List")
 	if err != nil {
 		return AccountsList{}, err
@@ -23,7 +23,7 @@ func _getAccountsList(stub shim.ChaincodeStubInterface) (AccountsList, error) {
 	return accountsList, nil
 }
 
-func _getCampaignsList(stub shim.ChaincodeStubInterface) (CampaignsList, error) {
+func getCampaignsList(stub shim.ChaincodeStubInterface) (CampaignsList, error) {
 	campaignsListBytes, err := stub.GetState("Campaigns List")
 	if err != nil {
 		return CampaignsList{}, err
@@ -34,7 +34,7 @@ func _getCampaignsList(stub shim.ChaincodeStubInterface) (CampaignsList, error) 
 	return campaignsList, nil
 }
 
-func _getVoterGroupsList(stub shim.ChaincodeStubInterface) (VoterGroupsList, error) {
+func getVoterGroupsList(stub shim.ChaincodeStubInterface) (VoterGroupsList, error) {
 	voterGroupsListBytes, err := stub.GetState("Voter Groups List")
 	if err != nil {
 		return VoterGroupsList{}, err
@@ -43,6 +43,32 @@ func _getVoterGroupsList(stub shim.ChaincodeStubInterface) (VoterGroupsList, err
 	json.Unmarshal(voterGroupsListBytes, &voterGroupsList)
 
 	return voterGroupsList, nil
+}
+
+//----------------------------------------------Query--------------------------------------------------
+
+// queryAccountByID is a helper that queries the Accounts array for id and returns the account with id.
+func queryAccountByID(id string, accounts []Account) (Account, error) {
+
+	for _, v := range accounts {
+		if v.ID == id {
+			return v, nil
+		}
+	}
+
+	return Account{}, errors.New("Account with id: " + id + " does not exist.")
+}
+
+// queryByAccountExistsById queries the Accounts array for id and returns whether it exists.
+func queryAccountExistsByID(id string, accounts []Account) bool {
+
+	for _, v := range accounts {
+		if v.ID == id {
+			return true
+		}
+	}
+
+	return false
 }
 
 //----------------------------------------------Identity---------------------------------------------------

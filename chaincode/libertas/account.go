@@ -122,30 +122,6 @@ func (t *Libertas) QueryAccountByID(stub shim.ChaincodeStubInterface, args []str
 
 }
 
-// queryAccountByID is a helper that queries the Accounts array for id and returns the account with id.
-func queryAccountByID(id string, accounts []Account) (Account, error) {
-
-	for _, v := range accounts {
-		if v.ID == id {
-			return v, nil
-		}
-	}
-
-	return Account{}, errors.New("Account with id: " + id + " does not exist.")
-}
-
-// queryByAccountExistsById queries the Accounts array for id and returns whether it exists.
-func queryAccountExistsByID(id string, accounts []Account) bool {
-
-	for _, v := range accounts {
-		if v.ID == id {
-			return true
-		}
-	}
-
-	return false
-}
-
 //----------------------------------------------Edit--------------------------------------------------
 func (t *Libertas) InstitutionEditAccountByID(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if len(args) != 3 {
@@ -153,7 +129,7 @@ func (t *Libertas) InstitutionEditAccountByID(stub shim.ChaincodeStubInterface, 
 	}
 
 	accountID := args[0]
-	accountsList, err := _getAccountsList(stub)
+	accountsList, err := getAccountsList(stub)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
@@ -196,7 +172,7 @@ func (t *Libertas) PersonalEditAccount(stub shim.ChaincodeStubInterface, args []
 	}
 
 	accountID := args[0]
-	accountsList, err := _getAccountsList(stub)
+	accountsList, err := getAccountsList(stub)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
@@ -253,7 +229,7 @@ func (t *Libertas) DeleteAccountByID(stub shim.ChaincodeStubInterface, args []st
 	}
 
 	accountID := args[0]
-	accountsList, err := _getAccountsList(stub)
+	accountsList, err := getAccountsList(stub)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
