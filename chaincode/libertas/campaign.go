@@ -26,7 +26,7 @@ type Campaign struct {
 	ID                  string
 	Name                string
 	CampaignType        string
-	CampaignBallotBox   []Vote
+	CampaignBallotBox   BallotBox
 	Start               time.Time
 	End                 time.Time
 	CreatedAt           time.Time

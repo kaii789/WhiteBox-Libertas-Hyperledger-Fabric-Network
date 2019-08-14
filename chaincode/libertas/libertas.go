@@ -124,7 +124,7 @@ func (t *Libertas) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	case "DeleteCampaignByID":
 		return t.DeleteCampaignByID(stub, args)
 	case "CreateVote": // Vote-related functions
-		return t.CreateVote(stub, args)
+		return t.CastVote(stub, args)
 	case "ListBallotByCampaignID":
 		return t.ListBallotBoxesByCampaignID(stub, args)
 		// case "EditVote":
