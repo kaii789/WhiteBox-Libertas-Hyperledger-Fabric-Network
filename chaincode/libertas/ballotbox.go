@@ -11,6 +11,14 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
+func CastVote(stub shim.ChaincodeStubInterface, args []string) {
+
+	// votingSystem :=           get voting system based on campaign id
+
+	// todo a bunch of switch statements follow
+
+}
+
 // BallotBox is an interface for a BallotBox-ish struct.
 type BallotBox interface {
 	castVote(Vote)
@@ -24,17 +32,10 @@ type BallotBoxPrototype struct {
 	box []Vote
 }
 
-// castVoteChecks checks that the vote is allowed to be casted by caller.
-func (t BallotBoxPrototype) castVoteChecks(stub shim.ChaincodeStubInterface, args []string) error {
-	voterID := args[0]
-	campaignID := args[1]
-	voterGroupID := args[2]
+// castVoteChecks does preliminary checks to ensure that the vote is allowed to be casted by caller.
+func (t BallotBoxPrototype) castVoteChecks(stub shim.ChaincodeStubInterface, voterID string, campaignID string, voterGroupID string) error {
 
 	var err error
-
-	if len(args) != 3 {
-		return errors.New("incorrect number of arguments, expecting 3")
-	}
 
 	// check for correct account, only personal accounts can vote
 	accountTypeOK, err := CheckCertAttribute(stub, "accountType", "Personal")
@@ -100,7 +101,7 @@ func (t BallotBoxPrototype) _checkValidVoter(stub shim.ChaincodeStubInterface, v
 	// 	return nil
 	// }
 
-	voterGroupsList, err := _getVoterGroupsList(stub)
+	voterGroupsList, err := getVoterGroupsList(stub)
 	if err != nil {
 		return err
 	}
